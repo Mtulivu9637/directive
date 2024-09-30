@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Assessor Upload</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: #5052b9;
+        color: white;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .navbar img {
+        height: 40px;
+      }
+      .container {
+        margin-top: 70px; /* Space for fixed navbar */
+        padding: 20px;
+      }
+      .upload-form {
+        display: flex;
+        flex-direction: column;
+        max-width: 500px;
+        margin: auto;
+      }
+      .upload-form input[type="file"] {
+        margin-bottom: 10px;
+      }
+      .upload-form textarea {
+        margin-bottom: 10px;
+        resize: none;
+      }
+      @media (max-width: 600px) {
+        .navbar {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .container {
+          padding: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    {% load static %}
+    <div class="navbar">
+      <img src="{% static 'img/logo.png'%}" alt="Logo" />
+      <!-- Replace with your logo URL -->
+      <h2>Assessor Upload</h2>
+    </div>
+
+    <div class="container">
+      <h1>Upload Excel Sheet</h1>
+      <form
+          class="upload-form"
+          action="{% url 'upload_excel' %}"  
+          method="POST"
+          enctype="multipart/form-data"
+      >
+          {% csrf_token %}
+        <input type="file" name="excel_file" accept=".xls,.xlsx" required />
+        <textarea
+          name="description"
+          rows="4"
+          placeholder="Short description..."
+          required
+        ></textarea>
+        <button type="submit">Upload</button>
+      </form>
+    </div>
+    {% if success %}
+    <script>
+        alert('File uploaded successfully!');
+        window.location.href = "{% url 'home' %}";  // Replace 'homeview' with the actual name of your home page URL
+    </script>
+{% endif %}
+  </body>
+</html>

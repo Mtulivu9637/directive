@@ -126,8 +126,7 @@ def convert_excel_to_pdf(request, file_id):
 
         # Step 6: Download the PDF and send it as a response
         response = cloudconvert.download(filename=file_info['filename'], url=pdf_file_url)
-        print(pdf_file_url)
-        return HttpResponse(response, content_type='application/pdf')
+        return redirect(pdf_file_url)
 
     except Exception as e:
         return HttpResponse(f"An error occurred: {str(e)}", status=500)
